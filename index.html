@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Selamat Ulang Tahun!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Courier', sans-serif;
+      background: linear-gradient(to bottom, #ffe8ec, #fff);
+      color: #333;
+      text-align: center;
+      overflow-x: hidden;
+    }
+    .intro-overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(to bottom right, #96048f, #eed0eb);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 1s ease;
+    }
+    .intro-overlay img {
+      width: 300px;
+      cursor: pointer;
+      transition: transform 1s ease;
+      animation: shake 1s infinite;
+    }
+    @keyframes shake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      10% { transform: translate(-1px, -2px) rotate(-1deg); }
+      20% { transform: translate(-3px, 0px) rotate(1deg); }
+      30% { transform: translate(3px, 2px) rotate(0deg); }
+      40% { transform: translate(1px, -1px) rotate(1deg); }
+      50% { transform: translate(-1px, 2px) rotate(-1deg); }
+      60% { transform: translate(-3px, 1px) rotate(0deg); }
+      70% { transform: translate(3px, 1px) rotate(-1deg); }
+      80% { transform: translate(-1px, -1px) rotate(1deg); }
+      90% { transform: translate(1px, 2px) rotate(0deg); }
+      100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
+    .intro-overlay.hide {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(1.5);
+    }
+    .container {
+      padding: 40px 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 3em;
+      color: #d6336c;
+    }
+    p {
+      font-size: 1.2em;
+    }
+    h6 {
+        font-family: 'Great Vibes', cursive;
+        font-size: 18pt;
+        color: #d809f3;
+        margin-bottom: 10px;
+    }
+    .photo {
+      width: 200px;
+      height: 200px;
+      border-radius: 15%;
+      object-fit: cover;
+      border: 5px solid #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      margin: 20px auto;
+    }
+    .floating-buttons {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 1000;
+    }
+    .floating-buttons button {
+      background-color: #ff69b4;
+      border: none;
+      color: white;
+      padding: 15px;
+      border-radius: 50%;
+      font-size: 1.2em;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+    .floating-buttons button:hover {
+      transform: scale(1.1);
+    }
+    .footer {
+      margin-bottom: 40px;
+      font-size: 0.9em;
+      color: #777;
+    }
+    .modal-dialog {
+      display: flex;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .modal-content {
+      border-radius: 20px;
+      background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+      color: white;
+      transform: scale(0.5) translateY(-20px);
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.55, 0.055, 0.675, 0.19);
+      font-family: 'Dancing Script', cursive;
+    }
+    .modal.fade.show .modal-content {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+    .modal-header {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
+    .modal-title {
+      color: #fff;
+    }
+    .floating-image {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      width: 200px;
+      z-index: -1;
+      filter: blur(2px);
+      opacity: 0.8;
+    }
+    .floating-balloons {
+      position: fixed;
+      bottom: -100px;
+      left: 0;
+      width: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .balloon {
+      position: absolute;
+      width: 40px;
+      animation: floatUp 8s linear infinite;
+      opacity: 0.8;
+    }
+    .modal-body .balloon {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      animation: floatUp 5s linear forwards;
+      opacity: 0;
+    }
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) scale(1);
+        opacity: 0;
+      }
+    }
+     /* Card dengan Gradient Ungu */
+     .card-custom {
+      background: linear-gradient(135deg, #69034b, #d6a5eb13);
+      border: none;
+      border-radius: 15px;
+      color: white;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      margin-top: 30px;
+    }
+    .card-custom h6 {
+      color: #830572;
+    }
+  </style>
+</head>
+<body>
+    <div class="intro-overlay" id="introOverlay">
+        <img src="birtday1.png" alt="Hadiah" onclick="startSite()" />
+      </div>
+      <!-- Konten utama akan muncul setelah overlay -->
+  <div id="mainContent" style="display: none;">
+  <div class="container">
+    <h1>Selamat Ulang Tahun <br> Ari Jegeg!!!!</h1>
+    <img src="3.jpg" alt="ariyanti" class="photo" />
+        <div class="card-custom">
+            <p>
+          Wahhhh ada nak ulang tahun noks... happy birthday yo my lovely
+          <div class="card-custom">
+            "BUAH MANGGA DIMAKAN LELE"<br>
+          "GUE BANGGA PADAMU LE..."<br>
+          "KESETRA NEGEN BADE TUH"<br>
+          "HAPPY BIRTHDAY LUH..."<br>
+          <img src="love1.png" style="width: 60px;">
+        </div>
+          semoga yang sederhana ini cukup menghiburmu my love the only one<br>
+          Selamat Ulang Tahun Ari Chan....tik..tik..tik..
+         </p>
+            <h6>
+          Semoga apa yang hamu harapkan tercapai<br>Kebahagian dan kesuksesan
+            </h6>
+      </div>
+  </div>
+</div>
+  <div class="floating-buttons">
+    <button onclick="openModal('modalLove', this)"><i class="fas fa-heart"></i></button>
+    <button onclick="openModal('modalNote', this)"><i class="fas fa-note-sticky"></i></button>
+    <button onclick="openModal('modalDream', this)"><i class="fas fa-moon"></i></button>
+  </div>
+
+  <img src="love2.png" alt="Love Icon" class="floating-image">
+
+  <!-- Floating Balloons -->
+  <div class="floating-balloons">
+    <!-- Generate multiple balloons with random delays and positions -->
+    <script>
+      const balloonContainer = document.currentScript.parentElement;
+      for (let i = 0; i < 20; i++) {
+        const img = document.createElement('img');
+        img.src = 'love1.png';
+        img.className = 'balloon';
+        img.style.left = Math.random() * window.innerWidth + 'px';
+        img.style.animationDelay = (Math.random() * 8).toFixed(2) + 's';
+        balloonContainer.appendChild(img);
+      }
+    </script>
+  </div>
+
+  <!-- Modal Love -->
+  <div class="modal fade" id="modalLove" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Kasih dan Sayang</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          Seandainya apa yang wi pikirkan bisa wi tulis dihalaman ini mungkin akan memenuhinya. heheheh.. <br>
+          Satu hal yang wi pikir saat mengenalmu adalah kamu seperti seorang kakak, biarpun umur lebih kecil dari wi tapi pemikiranmu itu sungguh dewasa <br>
+          mungkin karena kamu sudah terbiasa mengemong adik-adikmu, itu yang buat kamu punya karakter yang dewasa dalam bersikap <br>
+          Rasa kasih dan sayang yang terpancar dari sikapmu, matamu sungguh keren tau, bikin candu buat liat dan liat lagi <br>
+          bibirmu spesial banget... kikikik. tapi bener spesial lo,,, ini pujian ya!!! <br>
+          <div class="card-custom">semoga rasa sayang dan kasihmu itu selalu bersamamu, dan buat orang sekitar merasakan bahagia saat menerima serangan rasa dari pancaran inner beauty mu ari geg</div><br>
+          LOVE YOU & LOVE YOURS <br>
+          <img src="love1.png" style="width: 50px;" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Note -->
+  <div class="modal fade" id="modalNote" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Catatan Manis untuk Orang Manis</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          Yukk buat hari-hari mu menjadi semanis senyummu, seindah matamu dan seelagan penampilanmu<br>
+          jangan terlalu dipengaruhi oleh masa lalu. Masa lalu memang meninggalkan kenangan baik suka maupun duka <br>
+          tapi bukan berarti kita harus skeptis terhadap masa depan <br>
+          keyakinan akan indahnya masa depan pasti akan seindah matamu <br>
+          manisnya masa depan pasti akan semanis bibirmu <br>
+          bahagianya masa depan pasti akan seempuk pipimu <br>
+          <div class="card-custom">intinya seiring bertambahnya usia semoga makin manis dan mulus.... <br> nyam...nyam...</div><br>
+          love love love ... muah....<br>
+          <img src="love1.png" style="width: 50px;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Dream -->
+  <div class="modal fade" id="modalDream" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Harapan Indah</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          Banyak mimpi yang sering terlintas <br>
+          banyak kalimat sering terucap <br>
+          namun satu yang sering kuimpikan <br>
+          adalah kamu ada disampingku <br>
+          kirrrr....... <br>
+          banyak orang mungkin memimpikanmu <br>
+          namun ku yakin hanya aku yang bisa milikimu <br>
+          saat bibirku berucap <br>
+          saat tanganku menulis kalimat <br>
+          itu terwujud hinga bisa kamu dengar dan kamu baca <br>
+          bukanlah tanpa sebab dan alasan <br>
+          ku hanya ingin katakan, itu semua datang dari hatiku <br>
+          Naruto tidak pernah menyatakan cinta dengan tegas pada Hinata <br>
+          dia hanya bilang "aku ingin hidup bersama dan menua bersamamu" <br>
+          sebenarnya itu juga yang aku inginkan <br>
+          <div class="card-custom">SEMOGA TAHUN INI DAN KEDEPANNYA MIMPI-MIMPI INDAH ARI TERWUJUD. ASTUNGKARA</div><br>
+          Saat malam menjelang <br> saat jam tidur sudah datang <br>saat mata mulai terbuka <br>saat matahari mulai kupandangi <br>saat itulah wajahmu seperti tampak jelas dalam pikiranku <br>          
+          <button class="btn btn-sm" onclick="launchDreamAnimation()"><img src="panahgerak.gif" width="50px" alt=""><img src="love2.png" style="width: 50px; border-radius: 50%;" alt=""></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="birthdayMusic" src="https://cdn.pixabay.com/download/audio/2025/04/05/audio_5b968bcbd6.mp3" autoplay muted loop></audio>
+  <script>
+    function playMusic() {
+      const music = document.getElementById('birthdayMusic');
+      music.play();
+    }
+
+    function startSite() {
+  const overlay = document.getElementById('introOverlay');
+  overlay.classList.add('hide');
+  setTimeout(() => {
+    overlay.remove();
+    document.getElementById('mainContent').style.display = 'block';
+
+    // Mulai musik
+    const music = document.getElementById('birthdayMusic');
+    music.muted = false;
+    music.play().catch(e => console.log("Autoplay diblokir: ", e));
+  }, 1000);
+}
+
+
+    function openModal(id, button) {
+      const modal = new bootstrap.Modal(document.getElementById(id));
+      const modalElement = document.getElementById(id).querySelector('.modal-content');
+      modalElement.style.transform = 'scale(0.5) translateY(-20px)';
+      modalElement.style.opacity = '0';
+      setTimeout(() => {
+        modal.show();
+        setTimeout(() => {
+          modalElement.style.transform = 'scale(1) translateY(0)';
+          modalElement.style.opacity = '1';
+        }, 100);
+      }, 50);
+    }
+
+    function launchDreamAnimation() {
+      for (let i = 1; i <= 7; i++) {
+        setTimeout(() => {
+          const img = document.createElement('img');
+          img.src = `${i}.jpg`;
+          img.style.position = 'fixed';
+          img.style.bottom = '0';
+          img.style.left = Math.random() * 100 + 'vw';
+          img.style.width = '60px';
+          img.style.height = '60px';
+          img.style.borderRadius = '50%';
+          img.style.opacity = '0';
+          img.style.transition = 'transform 5s linear';
+          img.style.zIndex = '2000';
+          document.body.appendChild(img);
+
+          requestAnimationFrame(() => {
+            img.style.transform = 'translateY(-100vh)';
+            img.style.opacity = '1';
+          });
+
+          setTimeout(() => {
+            img.remove();
+          }, 5000);
+        }, i * 300); // delay tiap gambar 300ms
+      }
+    }
+
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<footer class="footer">
+    Dibuat dengan cinta oleh sahabatmu!!!
+</footer>
+</html>
