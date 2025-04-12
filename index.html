@@ -28,23 +28,11 @@
       transition: all 1s ease;
     }
     .intro-overlay img {
-      width: 300px;
+      width: 100%;
+      height: 100%
       cursor: pointer;
       transition: transform 1s ease;
       animation: shake 1s infinite;
-    }
-    @keyframes shake {
-      0% { transform: translate(1px, 1px) rotate(0deg); }
-      10% { transform: translate(-1px, -2px) rotate(-1deg); }
-      20% { transform: translate(-3px, 0px) rotate(1deg); }
-      30% { transform: translate(3px, 2px) rotate(0deg); }
-      40% { transform: translate(1px, -1px) rotate(1deg); }
-      50% { transform: translate(-1px, 2px) rotate(-1deg); }
-      60% { transform: translate(-3px, 1px) rotate(0deg); }
-      70% { transform: translate(3px, 1px) rotate(-1deg); }
-      80% { transform: translate(-1px, -1px) rotate(1deg); }
-      90% { transform: translate(1px, 2px) rotate(0deg); }
-      100% { transform: translate(1px, -2px) rotate(-1deg); }
     }
     .intro-overlay.hide {
       opacity: 0;
@@ -81,10 +69,11 @@
     }
     .floating-buttons {
       position: fixed;
-      top: 100px;
-      right: 20px;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       gap: 15px;
       z-index: 1000;
     }
@@ -251,11 +240,6 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-          Seandainya apa yang wi pikirkan bisa wi tulis dihalaman ini mungkin akan memenuhinya. heheheh.. <br>
-          Satu hal yang wi pikir saat mengenalmu adalah kamu seperti seorang kakak, biarpun umur lebih kecil dari wi tapi pemikiranmu itu sungguh dewasa <br>
-          mungkin karena kamu sudah terbiasa mengemong adik-adikmu, itu yang buat kamu punya karakter yang dewasa dalam bersikap <br>
-          Rasa kasih dan sayang yang terpancar dari sikapmu, matamu sungguh keren tau, bikin candu buat liat dan liat lagi <br>
-          bibirmu spesial banget... kikikik. tapi bener spesial lo,,, ini pujian ya!!! <br>
           <div class="card-custom">semoga rasa sayang dan kasihmu itu selalu bersamamu, dan buat orang sekitar merasakan bahagia saat menerima serangan rasa dari pancaran inner beauty mu ari geg</div><br>
           LOVE YOU & LOVE YOURS <br>
           <img src="love1.png" style="width: 50px;" alt="">
