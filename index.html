@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Selamat Ulang Tahun!</title>
+  <title>Ari Cha Birthday 🥰</title>
   
   <!-- Meta tag Open Graph -->
   <meta property="og:title" content="Ari Cha Birthday 🥰" />
@@ -31,9 +32,10 @@
       z-index: 9999;
       display: flex;
       justify-content: center;
-      align-items: center;
       background: linear-gradient(to bottom, #570144, #ff06c9, #f8f3f3);
+      align-items: center;
       transition: all 1s ease;
+      flex-direction: column;
     }
     .intro-overlay img {
       height: 100%;
@@ -44,6 +46,17 @@
       opacity: 0;
       pointer-events: none;
       transform: scale(1.5);
+    }
+    .countdown {
+      position: absolute;
+      bottom: 9%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5em;
+      font-weight: bold;
+      color: rgb(225, 6, 245);
+      font-family: 'Courier New', monospace;
+      text-shadow: 2px 2px 5px #000;
     }
     .container {
       padding: 40px 20px;
@@ -86,12 +99,12 @@
     .floating-buttons button {
       background-color: #96048f;
       border: none;
-      color: white;
-      padding: 15px;
+      color: rgba(255, 254, 254, 0.932);
+      padding: 5px;
       border-radius: 50%;
-      font-size: 1.2em;
+      font-size: 8pt;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 8px rgba(83, 2, 94, 0.2);
       transition: transform 0.3s ease;
     }
     .floating-buttons button:hover {
@@ -154,7 +167,7 @@
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      animation: floatUp 5s linear forwards;
+      animation: floatUp 5s linear infinite;
       opacity: 0;
     }
     @keyframes floatUp {
@@ -187,7 +200,7 @@
 </head>
 <body>
     <div class="intro-overlay" id="introOverlay">
-        <img src="birtday1.png" alt="Hadiah" onclick="startSite()" />
+        <img src="birtday1.png" alt="Hadiah" onclick="startSite()" /><div class="countdown" id="countdown">5</div>
       </div>
       <!-- Konten utama akan muncul setelah overlay -->
   <div id="mainContent" style="display: none;">
@@ -312,12 +325,22 @@
     </div>
   </div>
 
-  <audio id="birthdayMusic" src="https://cdn.pixabay.com/download/audio/2025/04/05/audio_5b968bcbd6.mp3" autoplay muted loop></audio>
+  <audio id="birthdayMusic" src="https://cdn.pixabay.com/download/audio/2025/04/05/audio_5b968bcbd6.mp3" preload="auto"></audio>
+
   <script>
-    function playMusic() {
-      const music = document.getElementById('birthdayMusic');
-      music.play();
-    }
+    let countdownSeconds = 9;
+    const countdownElement = document.getElementById('countdown');
+    const overlayImage = document.querySelector('.intro-overlay img');
+
+    const countdownInterval = setInterval(() => {
+      countdownSeconds--;
+      if (countdownSeconds <= 0) {
+        clearInterval(countdownInterval);
+        startSite();
+      } else {
+        countdownElement.textContent = countdownSeconds;
+      }
+    }, 1000);
 
     function startSite() {
   const overlay = document.getElementById('introOverlay');
@@ -325,14 +348,28 @@
   setTimeout(() => {
     overlay.remove();
     document.getElementById('mainContent').style.display = 'block';
+    playMusic();
 
-    // Mulai musik
-    const music = document.getElementById('birthdayMusic');
-    music.muted = false;
-    music.play().catch(e => console.log("Autoplay diblokir: ", e));
+    // Backup trigger saat user klik
+    document.body.addEventListener('click', () => {
+      playMusic();
+    }, { once: true });
+
   }, 1000);
 }
-    
+
+function playMusic() {
+  const music = document.getElementById('birthdayMusic');
+  music.loop = false;
+  music.muted = true; // mulai dalam kondisi mute
+  music.play().then(() => {
+    setTimeout(() => {
+      music.muted = false; // baru nyalakan suara setelah play sukses
+    }, 100);
+  }).catch((err) => {
+    console.log("Autoplay gagal, silakan klik manual:", err);
+  });
+}    
     function openModal(id, button) {
       const modal = new bootstrap.Modal(document.getElementById(id));
       const modalElement = document.getElementById(id).querySelector('.modal-content');
